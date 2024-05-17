@@ -1,9 +1,10 @@
 {
   "name": "electron-best-practice",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "electron best practice",
   "main": "./main/main.js",
   "scripts": {
+    "dev": "electron .",
     "start": "electron .",
     "build": "electron-builder",
     "build:all": "electron-builder -mwl",
