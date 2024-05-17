@@ -11,12 +11,12 @@ autoUpdater
   .checkForUpdatesAndNotify()
   .then((rst) => {
     log.info(
-      '---------------------checkForUpdatesAndNotify---------------------',
+      '---------------------checkForUpdatesAndNotify success---------------------',
       rst
     );
   })
   .catch((err) => {
-    log.error('------------checkForUpdatesAndNotify------------', err);
+    log.error('------------checkForUpdatesAndNotify error ------------', err);
   });
 
 // 检测更新，在你想要检查更新的时候执行，renderer事件触发后的操作自行编写
@@ -46,7 +46,7 @@ function updateHandle(mainWindow) {
   // 更新下载进度事件
   autoUpdater.on('download-progress', function (progressObj) {
     log.info(
-      '-------------------------mainWindow-------------------------',
+      '-------------------------download-progress mainWindow-------------------------',
       mainWindow
     );
     mainWindow.webContents.send('downloadProgress', progressObj);
