@@ -1,6 +1,10 @@
 const { ipcMain } = require('electron');
 // 注意这个autoUpdater不是electron中的autoUpdater
 const { autoUpdater } = require('electron-updater');
+
+autoUpdater.logger = require("electron-log")
+autoUpdater.logger.transports.file.level = "info"
+
 // 更新服务器地址，比如"http://**.**.**.**:3002/download/"
 // import {uploadUrl} from "../../renderer/config";
 const log = require('electron-log');
@@ -51,6 +55,7 @@ function updateHandle(mainWindow) {
     );
     mainWindow.webContents.send('downloadProgress', progressObj);
   });
+
   autoUpdater.on(
     'update-downloaded',
     function (

@@ -25,8 +25,8 @@ const createWindow = () => {
     webPreferences: {
       // webSecurity: false,
       allowRunningInsecureContent: true,
-      nodeIntegration: false, //是否完整的支持 node. 默认值为true
-      nodeIntegrationInWorker: false, // 是否在Web工作器中启用了Node集成
+      nodeIntegration: true, //是否完整的支持 node. 默认值为true
+      nodeIntegrationInWorker: true, // 是否在Web工作器中启用了Node集成
       enableRemoteModule: true, // 使用remote模块
       // preload: path.resolve(app.getAppPath(), 'src/main/setting/preload.js')
       preload: path.resolve(__dirname, "..", "./bridge/preload.js"),
