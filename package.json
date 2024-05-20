@@ -4,8 +4,8 @@
   "description": "electron best practice",
   "main": "./main/main.js",
   "scripts": {
-    "dev": "electron .",
-    "start": "electron .",
+    "dev": "yarn start",
+    "start": "electron . --remote-debugging-port=9222",
     "build": "electron-builder",
     "build:all": "electron-builder -mwl",
     "build:mac": "electron-builder --mac",
