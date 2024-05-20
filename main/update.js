@@ -52,24 +52,26 @@ function updateHandle(mainWindow) {
 
   autoUpdater.on(
     "update-downloaded",
-    function (
-      event,
+     function (event,
       releaseNotes,
       releaseName,
       releaseDate,
       updateUrl,
-      quitAndUpdate
-    ) {
+      quitAndUpdate) {
+      
       mainWindow.webContents.send("updateDownloaded");
 
-      ipcMain.on("updateNow", (e, arg) => {
-        console.log(arguments);
-        console.log("开始更新");
-        //some code here to handle event
-        autoUpdater.quitAndInstall();
-      });
+      
     }
   );
+
+  ipcMain.handle("updateNow", (e, arg) => {
+    log.info(arguments);
+    log.info("开始更新");
+    //some code here to handle event
+    autoUpdater.quitAndInstall();
+    return 'updateNow';
+  });
 
   ipcMain.on("checkForUpdate", () => {
     //执行自动更新检查

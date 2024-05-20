@@ -1,6 +1,6 @@
 {
   "name": "electron-best-practice",
-  "version": "1.0.6",
+  "version": "1.0.0",
   "description": "electron best practice",
   "main": "./main/main.js",
   "scripts": {
