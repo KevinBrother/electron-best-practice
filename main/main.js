@@ -23,7 +23,9 @@ const createWindow = () => {
     /*fullscreen: true,
             minimizable: true,*/
     webPreferences: {
+      devTools: true,
       // webSecurity: false,
+      contextIsolation: false, // 在 web 中使用 Node.js 的 require 语法，以及  electron 的 remote 模块
       allowRunningInsecureContent: true,
       nodeIntegration: true, //是否完整的支持 node. 默认值为true
       nodeIntegrationInWorker: true, // 是否在Web工作器中启用了Node集成

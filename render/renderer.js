@@ -21,3 +21,8 @@ ipcRenderer.on('download-progress', function(event, text) {
   container.appendChild(message);
 })
 
+
+
+document.getElementById('update-now').addEventListener('click', function() {
+  ipcRenderer.send('update-now');
+});
