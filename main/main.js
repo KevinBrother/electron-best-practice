@@ -1,7 +1,8 @@
 const { app, BrowserWindow, ipcMain, Notification } = require("electron");
-const { updateHandle } = require("./update");
 const path = require("path");
 const log = require("electron-log");
+const { startRenderServer } = require("./start-render");
+const { updateHandle } = require("./update");
 log.info("-----------------------Hello, log-----------------------");
 
 // 支持打开https的链接
@@ -16,7 +17,10 @@ app.on(
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-const createWindow = () => {
+const createWindow = async () => {
+  // 启动渲染进程
+  await startRenderServer();
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     show: false,
@@ -58,7 +62,8 @@ const createWindow = () => {
   // mainWindow.loadURL('https://localhost:80/admin', { "extraHeaders": "pragma: no-cache" });
   // mainWindow.loadURL('http://localhost:80/admin', { "extraHeaders": "pragma: no-cache" });
 
-  mainWindow.loadFile("render/index.html");
+  // mainWindow.loadFile("render/index.html");
+  mainWindow.loadURL("http://localhost:8080");
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 
