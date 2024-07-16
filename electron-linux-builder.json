@@ -1,0 +1,34 @@
+{
+  "productName": "electron-best-practice",
+  "appId": "cjj",
+  "extraResources": [
+    {
+      "from": "main/server",
+      "to": "main/server"
+    },
+    {
+      "from": "./config",
+      "to": "config"
+    },
+    {
+      "from": "build_metadata.json",
+      "to": "build_metadata.json"
+    }
+  ],
+  "files": [
+    "dist/"
+  ],
+  "linux": {
+    "icon": "resources/icons",
+    "target": "deb"
+  },
+  "directories": {
+    "output": "release"
+  },
+  "publish": [
+    {
+      "provider": "generic",
+      "url": "http://127.0.0.1:3000"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "productName": "electron-best-practice",
+  "appId": "cjj",
+  "files": [
+    "main/",
+    "scripts/",
+    "render",
+    "utils"
+  ],
+  "mac": {
+    "icon": "resources/icon.icns",
+    "target": [
+      "dmg"
+    ]
+  },
+  "directories": {
+    "output": "release"
+  },
+  "publish": [
+    {
+      "provider": "generic",
+      "url": "http://127.0.0.1:3000"
+    }
+  ]
+}

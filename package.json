@@ -4,11 +4,11 @@
   "description": "electron best practice",
   "main": "./main/main.js",
   "scripts": {
-    "dev": "concurrently \"yarn render-server\" \"yarn start\"",
-    "start": "electron . --remote-debugging-port=9222",
+    "dev": "yarn start",
+    "start": "cross-env  NODE_ENV=development electron . --remote-debugging-port=9222",
     "build": "electron-builder",
     "build:all": "electron-builder -mwl",
-    "build:mac": "electron-builder --mac",
+    "build:mac": "electron-builder --config electron-mac-builder.json",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
     "render-server": "node ./scripts/render-server"
@@ -17,7 +17,7 @@
     "productName": "electron-best-practice",
     "appId": "cjj",
     "directories": {
-      "output": "dist"
+      "output": "release"
     },
     "extraResources": [
       {
@@ -49,14 +49,11 @@
         }
       ]
     },
-    "mac": {
-      "icon": "static/icons/icon.icns"
-    },
     "win": {
-      "icon": "static/icons/icon.ico"
+      "icon": "resources/icons/icon.ico"
     },
     "linux": {
-      "icon": "static/icons"
+      "icon": "resources/icons"
     },
     "nsis": {
       "oneClick": false,
@@ -77,14 +74,14 @@
   "author": "kevinbrother",
   "license": "CC0-1.0",
   "dependencies": {
-    "concurrently": "^8.2.2",
     "electron-log": "^4.4.8",
     "electron-updater": "^5.0.5",
-    "express": "^4.19.2",
-    "http-proxy-middleware": "^3.0.0"
+    "express": "^4.19.2"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "electron": "12.0.2",
+    "http-proxy-middleware": "^3.0.0",
     "electron-builder": "22.11.7"
   }
 }

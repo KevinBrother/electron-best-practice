@@ -1,8 +1,15 @@
 // 使用子进程启动 render server
 const { spawn } = require("child_process");
+const { getAppRootPath } = require("../utils/index");
+const path = require("path");
+
+const renderServerPath = path.resolve(
+  getAppRootPath(),
+  "scripts/render-server/index.js"
+);
 
 function startRenderServer() {
-  const renderServer = spawn("node", ["scripts/render-server/index.js"]);
+  const renderServer = spawn("node", [renderServerPath]);
 
   return new Promise((resolve, reject) => {
     renderServer.stdout.on("data", (data) => {
