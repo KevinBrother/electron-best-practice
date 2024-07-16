@@ -23,5 +23,7 @@ ipcRenderer.on("download-progress", function (event, text) {
 
 document.getElementById("update-now").addEventListener("click", function () {
   console.log("update-now clicked");
-  ipcRenderer.send("update-now");
+  ipcRenderer.invoke("updateNow").then(rst => {
+    console.log('updateNow： ',rst);
+  });
 });
