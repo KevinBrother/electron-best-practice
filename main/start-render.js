@@ -5,11 +5,11 @@ const path = require("path");
 
 const renderServerPath = path.resolve(
   getAppRootPath(),
-  "scripts/render-server/index.js"
+  "scripts/render-server/server"
 );
 
 function startRenderServer() {
-  const renderServer = spawn("node", [renderServerPath]);
+  const renderServer = spawn(renderServerPath);
 
   return new Promise((resolve, reject) => {
     renderServer.stdout.on("data", (data) => {
