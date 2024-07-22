@@ -1,9 +1,14 @@
 const { app, BrowserWindow, ipcMain, Notification } = require("electron");
 const path = require("path");
+const fs = require('fs');
 const log = require("electron-log");
-const { startRenderServer } = require("./start-render");
+// const { startRenderServer } = require("./start-render");
 const { updateHandle } = require("./update");
 log.info("-----------------------Hello, log-----------------------");
+
+const index = '/Applications/electron-best-practice.app/Contents/Resources/app.asar/render/index.html';
+const constent = fs.readFileSync(index);
+console.log('🚀 ~ constent:', constent.toString());
 
 // 支持打开https的链接
 app.on(
@@ -19,25 +24,27 @@ app.on(
 let mainWindow;
 const createWindow = async () => {
   // 启动渲染进程
-  await startRenderServer();
+  // await startRenderServer();
 
   // Create the browser window.
-  mainWindow = new BrowserWindow({
-    show: false,
-    /*fullscreen: true,
-            minimizable: true,*/
-    webPreferences: {
-      devTools: true,
-      // webSecurity: false,
-      contextIsolation: false, // 在 web 中使用 Node.js 的 require 语法，以及  electron 的 remote 模块
-      allowRunningInsecureContent: true,
-      nodeIntegration: true, //是否完整的支持 node. 默认值为true
-      nodeIntegrationInWorker: true, // 是否在Web工作器中启用了Node集成
-      enableRemoteModule: true, // 使用remote模块
-      // preload: path.resolve(app.getAppPath(), 'src/main/setting/preload.js')
-      preload: path.resolve(__dirname, "..", "./bridge/preload.js"),
-    },
-  });
+  // mainWindow = new BrowserWindow({
+  //   show: false,
+  //   /*fullscreen: true,
+  //           minimizable: true,*/
+  //   webPreferences: {
+  //     devTools: true,
+  //     // webSecurity: false,
+  //     contextIsolation: false, // 在 web 中使用 Node.js 的 require 语法，以及  electron 的 remote 模块
+  //     allowRunningInsecureContent: true,
+  //     nodeIntegration: true, //是否完整的支持 node. 默认值为true
+  //     nodeIntegrationInWorker: true, // 是否在Web工作器中启用了Node集成
+  //     enableRemoteModule: true, // 使用remote模块
+  //     // preload: path.resolve(app.getAppPath(), 'src/main/setting/preload.js')
+  //     preload: path.resolve(__dirname, "..", "./bridge/preload.js"),
+  //   },
+  // });
+
+  mainWindow = new BrowserWindow();
 
   // 默认最大化
   mainWindow.maximize();
@@ -63,7 +70,8 @@ const createWindow = async () => {
   // mainWindow.loadURL('http://localhost:80/admin', { "extraHeaders": "pragma: no-cache" });
 
   // mainWindow.loadFile("render/index.html");
-  mainWindow.loadURL("http://localhost:8080");
+  mainWindow.loadURL("file:///Applications/electron-best-practice.app/Contents/Resources/app.asar/render/index.html");
+  // mainWindow.loadURL("http://localhost:8080");
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 
