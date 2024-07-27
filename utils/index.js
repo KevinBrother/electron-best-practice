@@ -1,6 +1,6 @@
 const { app } = require("electron");
 const path = require("path");
-const log = require("electron-log");
+const log = console;
 
 function getAppRootPath() {
   log.info(

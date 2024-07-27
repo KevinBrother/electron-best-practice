@@ -5,10 +5,7 @@ const { autoUpdater } = require("electron-updater");
 
 // 更新服务器地址，比如"http://**.**.**.**:3002/download/"
 // import {uploadUrl} from "../../renderer/config";
-const log = require("electron-log");
-log.transports.file.level = "info";
-autoUpdater.logger = log;
-
+const log = console;
 autoUpdater
   .checkForUpdatesAndNotify()
   .then((rst) => {
@@ -52,16 +49,15 @@ function updateHandle(mainWindow) {
 
   autoUpdater.on(
     "update-downloaded",
-     function (event,
+    function (
+      event,
       releaseNotes,
       releaseName,
       releaseDate,
       updateUrl,
-      quitAndUpdate) {
-      
+      quitAndUpdate
+    ) {
       mainWindow.webContents.send("updateDownloaded");
-
-      
     }
   );
 
@@ -70,7 +66,7 @@ function updateHandle(mainWindow) {
     log.info("开始更新");
     //some code here to handle event
     autoUpdater.quitAndInstall();
-    return 'updateNow';
+    return "updateNow";
   });
 
   ipcMain.on("checkForUpdate", () => {
