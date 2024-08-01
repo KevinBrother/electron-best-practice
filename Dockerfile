@@ -1,5 +1,5 @@
 # use the version that corresponds to your electron version
-FROM electronuserland/builder:16-wine as builder
+FROM dockerhub.datagrand.com/ci_runner/frontend_web:electronuserland-builder-16-wine as builder
 
 # install electron dependencies or more if your library has other dependencies
 RUN apt-get update && apt-get install \
