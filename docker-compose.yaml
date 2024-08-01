@@ -1,0 +1,7 @@
+services:
+  electron-best-practice:
+    image: electron-best-practice:a 
+      
+    volumes:
+      - ./:/app
+      - /app/node_modules
