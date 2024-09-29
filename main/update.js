@@ -9,17 +9,17 @@ const log = require("electron-log");
 log.transports.file.level = "info";
 autoUpdater.logger = log;
 
-autoUpdater
-  .checkForUpdatesAndNotify()
-  .then((rst) => {
-    log.info(
-      "---------------------checkForUpdatesAndNotify success---------------------",
-      rst
-    );
-  })
-  .catch((err) => {
-    log.error("------------checkForUpdatesAndNotify error ------------", err);
-  });
+// autoUpdater
+//   .checkForUpdatesAndNotify()
+//   .then((rst) => {
+//     log.info(
+//       "---------------------checkForUpdatesAndNotify success---------------------",
+//       rst
+//     );
+//   })
+//   .catch((err) => {
+//     log.error("------------checkForUpdatesAndNotify error ------------", err);
+//   });
 
 // 检测更新，在你想要检查更新的时候执行，renderer事件触发后的操作自行编写
 function updateHandle(mainWindow) {
