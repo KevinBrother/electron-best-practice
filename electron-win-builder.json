@@ -1,6 +1,6 @@
 {
   "productName": "electron-best-practice",
-  "appId": "cjj",
+  "appId": "com.dg.cjj",
   "extraResources": [
     {
       "from": "main/server",
@@ -16,25 +16,13 @@
     }
   ],
   "files": [
-    "dist/"
+    "render/",
+    "main/"
   ],
-  "nsis": {
-    "oneClick": false,
-    "allowToChangeInstallationDirectory": true,
-    "createDesktopShortcut": false,
-    "createStartMenuShortcut": false,
-    "displayLanguageSelector": true,
-    "installerLanguages": [
-      "en_US",
-      "zh_CN"
-    ],
-    "installerIcon": "resources/install.ico",
-    "include": "resources/script/installer.nsi"
-  },
   "win": {
     "icon": "resources/icon.ico",
     "target": [
-      "nsis"
+      "portable"
     ]
   },
   "directories": {

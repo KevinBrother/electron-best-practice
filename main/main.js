@@ -1,11 +1,11 @@
 const { app, BrowserWindow, ipcMain, Notification } = require("electron");
 const path = require("path");
-const fs = require('fs');
+const fs = require("fs");
 const log = require("electron-log");
+const { openWindow, captureSources } = require("./windows/windows");
 // const { startRenderServer } = require("./start-render");
 const { updateHandle } = require("./update");
 log.info("-----------------------Hello, log-----------------------");
-
 
 // 支持打开https的链接
 app.on(
@@ -84,6 +84,28 @@ const createWindow = async () => {
   // 尝试更新
   // updateHandle(mainWindow);
 
+  ipcMain.handle("openWindow", async (event, arg) => {
+    console.log("openWindow", arg);
+    const win = openWindow(mainWindow, arg);
+    if (win) {
+      return 'success'
+    } else {
+      return 'fail'
+    }
+  });
+
+  ipcMain.handle("captureSources", async (event, arg) => {
+    console.log("captureSources");
+    return captureSources();
+  });
+
+  ipcMain.on('close-inner-window', (event, arg) => {
+    console.log("close-inner-window");
+    const win = BrowserWindow.fromWebContents(event.sender);
+    win.close();
+  });
+
+
   // Emitted when the window is closed.
   mainWindow.on("close", (e) => {
     // Dereference the window object, usually you would store windows
@@ -125,6 +147,7 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 
