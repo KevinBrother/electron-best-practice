@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Desktop Screenshot</title>
+    <style>
+      body {
+        margin: 0;
+        background: rgba(0, 0, 0, 0.6); /* 设置内容的透明度 */
+        color: black;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      #overlay {
+        position: absolute;
+        border: 2px dashed rgba(255, 0, 0, 0.7);
+        background: rgba(40, 40, 40, 0.8);
+        display: none;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Capture Desktop Screenshot</h1>
+    <div>
+      <button id="captureButton" style="display: none;">Capture Screenshot</button>
+      <button id="closeWindow">关闭窗口</button>
+    </div>
+    <img id="screenshotImg" style="display: none" />
+    <div id="overlay"></div>
+    <script src="renderer.js"></script>
+  </body>
+</html>

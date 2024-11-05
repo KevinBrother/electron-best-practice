@@ -8,9 +8,9 @@
     "start": "cross-env  NODE_ENV=development electron . --remote-debugging-port=9222",
     "build": "electron-builder",
     "build:all": "electron-builder -mwl",
-    "build:mac": "electron-builder --config electron-mac-builder.json",
-    "build:win": "electron-builder --win",
-    "build:linux": "electron-builder --linux",
+    "build:mac": "electron-builder --config electron-mac-builder.json --mac --x64 --publish never",
+    "build:win": "electron-builder --config electron-win-builder.json --win --x64 --publish never",
+    "build:linux": "electron-builder --config electron-linux-builder.json --linux --x64 --publish never",
     "render-server": "node ./scripts/render-server"
   },
   "build": {
@@ -80,7 +80,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "electron": "12.0.2",
+    "electron": "18.3.6",
     "http-proxy-middleware": "^3.0.0",
     "electron-builder": "22.11.7"
   }

@@ -27,3 +27,14 @@ document.getElementById("update-now").addEventListener("click", function () {
     console.log('updateNow： ',rst);
   });
 });
+
+document.getElementById("openWindow").addEventListener("click", function () {
+  console.log("openWindow");
+
+  const winConfig = document.getElementById("winConfig").value;
+  console.log('winConfig',winConfig);
+
+  ipcRenderer.invoke("openWindow", winConfig).then(rst => {
+    console.log('openWindow ',rst);
+  });
+});
