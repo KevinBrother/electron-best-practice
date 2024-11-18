@@ -1,34 +1,9 @@
 {
-  "productName": "electron-best-practice",
-  "appId": "com.dg.cjj",
-  "extraResources": [
-    {
-      "from": "main/server",
-      "to": "main/server"
-    },
-    {
-      "from": "./config",
-      "to": "config"
-    },
-    {
-      "from": "build_metadata.json",
-      "to": "build_metadata.json"
-    }
-  ],
-  "files": [
-    "dist/"
-  ],
+  "extends": "./electron-base-builder.json",
   "win": {
     "icon": "resources/icon.ico",
     "target": [
-      "portable"
+      "nsis"
     ]
-  },
-  "directories": {
-    "output": "release"
-  },
-  "publish": {
-    "provider": "generic",
-    "url": "http://127.0.0.1:3000"
   }
 }

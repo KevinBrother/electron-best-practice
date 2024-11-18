@@ -1,22 +1,9 @@
 {
-  "productName": "electron-best-practice",
-  "appId": "cjj",
-  "files": [
-    "dist/"
-  ],
+  "extends": "./electron-base-builder.json",
   "mac": {
     "icon": "resources/icon.icns",
     "target": [
-      "dmg"
+      "zip", "dmg"
     ]
-  },
-  "directories": {
-    "output": "release"
-  },
-  "publish": [
-    {
-      "provider": "generic",
-      "url": "http://127.0.0.1:3000"
-    }
-  ]
+  }
 }

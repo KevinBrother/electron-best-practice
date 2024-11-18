@@ -1,6 +1,6 @@
 const { ipcRenderer } = window.electron;
 
-import { constants } from '@common/constants';
+import { constants } from '@common/index';
 
 console.log(constants);
 

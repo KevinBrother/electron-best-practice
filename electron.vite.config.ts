@@ -14,7 +14,12 @@ export default defineConfig({
     },
     // plugins: [externalizeDepsPlugin(), bytecodePlugin()],
     build: {
-      outDir: resolve(__dirname, 'dist/main')
+      outDir: resolve(__dirname, 'dist/main'),
+      rollupOptions: {
+        input: {
+          index: resolve(__dirname, 'src/main/base/index.ts')
+        }
+      }
     }
   },
   preload: {

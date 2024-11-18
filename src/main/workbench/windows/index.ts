@@ -1,8 +1,7 @@
-import { app, BrowserWindow, desktopCapturer, ipcMain, screen } from 'electron';
+import { BrowserWindow, screen } from 'electron';
 import path from 'path';
 
-function openWindow(mainWindow: BrowserWindow | null, winConfig: string) {
-  mainWindow?.minimize();
+function openWindow(winConfig: string) {
   const { width, height, x, y } = screen.getPrimaryDisplay().bounds;
 
   let _winConfig: { width?: number; height?: number; x?: number; y?: number } = {};
@@ -35,12 +34,4 @@ function openWindow(mainWindow: BrowserWindow | null, winConfig: string) {
   return win;
 }
 
-function captureSources() {
-  return new Promise((resolve) => {
-    desktopCapturer.getSources({ types: ['screen'] }).then((sources) => {
-      resolve(sources[0]);
-    });
-  });
-}
-
-export { openWindow, captureSources };
+export { openWindow };
