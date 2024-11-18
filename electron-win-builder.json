@@ -16,8 +16,7 @@
     }
   ],
   "files": [
-    "render/",
-    "main/"
+    "dist/"
   ],
   "win": {
     "icon": "resources/icon.ico",

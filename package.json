@@ -2,15 +2,18 @@
   "name": "electron-best-practice",
   "version": "1.0.0",
   "description": "electron best practice",
-  "main": "./main/main.js",
+  "main": "./dist/main/main.js",
   "scripts": {
     "dev": "yarn start",
-    "start": "cross-env  NODE_ENV=development electron . --remote-debugging-port=9222",
-    "build": "electron-builder",
-    "build:all": "electron-builder -mwl",
-    "build:mac": "electron-builder --config electron-mac-builder.json --mac --x64 --publish never",
-    "build:win": "electron-builder --config electron-win-builder.json --win --x64 --publish never",
+    "start": "electron-vite dev",
+    "start-backup": "cross-env  NODE_ENV=development electron . --remote-debugging-port=9222",
+    "build": "electron-vite build",
+    "build:common": "tsc --project tsconfig.json --outDir dist/common",
+    "build:all": "yarn build && electron-builder -mwl",
+    "build:mac": "yarn build && electron-builder --config electron-mac-builder.json --mac --x64 --publish never",
+    "build:win": "yarn build && electron-builder --config electron-win-builder.json --win --x64 --publish never",
     "build:linux": "electron-builder --config electron-linux-builder.json --linux --x64 --publish never",
+    "lint": "eslint --fix ./src ./test",
     "render-server": "node ./scripts/render-server"
   },
   "build": {
@@ -74,14 +77,20 @@
   "author": "kevinbrother",
   "license": "CC0-1.0",
   "dependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
     "electron-log": "^4.4.8",
     "electron-updater": "^5.0.5",
     "express": "^4.19.2"
   },
   "devDependencies": {
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@kss-frontend/lint": "0.0.2",
     "cross-env": "^7.0.3",
     "electron": "18.3.6",
+    "electron-builder": "22.11.7",
+    "electron-vite": "^2.3.0",
     "http-proxy-middleware": "^3.0.0",
-    "electron-builder": "22.11.7"
+    "rollup-plugin-copy": "^3.5.0",
+    "vite": "^5.4.11"
   }
 }

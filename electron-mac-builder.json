@@ -2,10 +2,7 @@
   "productName": "electron-best-practice",
   "appId": "cjj",
   "files": [
-    "main/",
-    "scripts/",
-    "render",
-    "utils"
+    "dist/"
   ],
   "mac": {
     "icon": "resources/icon.icns",
