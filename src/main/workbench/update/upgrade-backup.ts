@@ -1,8 +1,6 @@
 import { ipcMain, BrowserWindow, dialog } from 'electron';
-import { autoUpdater, UpdateInfo } from 'electron-updater';
+import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import fs from 'fs';
-import { getConfigPath, isDev } from '../../utils';
 
 log.transports.file.level = 'info';
 autoUpdater.logger = log;
@@ -16,39 +14,22 @@ function updateHandle(mainWindow: BrowserWindow | null) {
     updateNotAvailable: '无新版本'
   };
 
-  // 允许降级
-  autoUpdater.allowDowngrade = true;
-  // 关闭自动下载
-  autoUpdater.autoDownload = false;
-  if (isDev()) {
-    // 允许开发环境调试更新
-    autoUpdater.forceDevUpdateConfig = true;
-  }
-
   autoUpdater.on('error', (error) => {
     sendUpdateMessage(mainWindow, 'error', `${error}: ${JSON.stringify(error)}`);
   });
   autoUpdater.on('checking-for-update', () => {
     sendUpdateMessage(mainWindow, 'checking', message.checking);
   });
-  autoUpdater.on('update-available', (info: UpdateInfo) => {
+  autoUpdater.on('update-available', (info) => {
     sendUpdateMessage(mainWindow, 'updateAvailable', JSON.stringify(info));
-    // 手动下载
-    autoUpdater
-      .downloadUpdate()
-      .then((rst) => {
-        log.info('---------------------downloadUpdate success---------------------', rst);
-        sendUpdateMessage(mainWindow, 'downloadUpdate-success', JSON.stringify(rst));
-      })
-      .catch((err) => {
-        log.error('------------downloadUpdate error------------', err);
-        sendUpdateMessage(mainWindow, 'downloadUpdate-error', JSON.stringify(err));
-      });
   });
-
   autoUpdater.on('update-not-available', (data) => {
     console.log('update-not-available', data);
     sendUpdateMessage(mainWindow, 'updateNotAvailable', message.updateNotAvailable);
+  });
+
+  autoUpdater.on('download-progress', (progressObj) => {
+    sendUpdateMessage(mainWindow, 'downloadProgress', JSON.stringify(progressObj));
   });
 
   autoUpdater.on('download-progress', (progressObj) => {
@@ -56,33 +37,7 @@ function updateHandle(mainWindow: BrowserWindow | null) {
     logMessage = logMessage + ' - Downloaded ' + progressObj.percent + '%';
     logMessage = logMessage + ' (' + progressObj.transferred + '/' + progressObj.total + ')';
 
-    sendUpdateMessage(mainWindow, 'downloadProgress', logMessage);
-  });
-
-  ipcMain.on('checkForUpdate', () => {
-    // 每次检查更新时 读取 config/config.json的 updateUrl 字段
-    const config = fs.readFileSync(getConfigPath('config.json'), 'utf8');
-    const configObj = JSON.parse(config);
-    console.log('configObj', configObj);
-
-    autoUpdater.setFeedURL(configObj.updateUrl);
-
-    // autoUpdater.setFeedURL({
-    //   provider: 'generic',
-    //   url: configObj.updateUrl,
-    //   channel: 'latest-ba'
-    // });
-
-    autoUpdater
-      .checkForUpdates()
-      .then((rst) => {
-        log.info('---------------------checkForUpdates success---------------------', rst);
-        sendUpdateMessage(mainWindow, 'checkForUpdates-success', JSON.stringify(rst));
-      })
-      .catch((err) => {
-        log.error('------------checkForUpdates error------------', err);
-        sendUpdateMessage(mainWindow, 'checkForUpdates-error', JSON.stringify(err));
-      });
+    mainWindow?.webContents.send('download-progress', logMessage);
   });
 
   ipcMain.handle('updateNow', () => {
@@ -104,6 +59,19 @@ function updateHandle(mainWindow: BrowserWindow | null) {
     });
 
     return 'updateNow';
+  });
+
+  ipcMain.on('checkForUpdate', () => {
+    autoUpdater
+      .checkForUpdates()
+      .then((rst) => {
+        log.info('---------------------checkForUpdates success---------------------', rst);
+        sendUpdateMessage(mainWindow, 'checkForUpdates-success', JSON.stringify(rst));
+      })
+      .catch((err) => {
+        log.error('------------checkForUpdates error------------', err);
+        sendUpdateMessage(mainWindow, 'checkForUpdates-error', message.error);
+      });
   });
 }
 

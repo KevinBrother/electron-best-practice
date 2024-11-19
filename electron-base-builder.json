@@ -1,14 +1,22 @@
 {
-    "productName": "electron-best-practice",
-    "appId": "com.dg.cjj",
-    "files": [
-      "dist/"
-    ],
-    "directories": {
-      "output": "release"
-    },
-    "publish": {
+  "productName": "electron-best-practice",
+  "appId": "com.dg.cjj",
+  "extraResources": [
+    {
+      "from": "./config",
+      "to": "config"
+    }
+  ],
+  "files": [
+    "dist/"
+  ],
+  "directories": {
+    "output": "release"
+  },
+  "publish": [
+    {
       "provider": "generic",
       "url": "http://127.0.0.1:3000"
     }
-  }
+  ]
+}

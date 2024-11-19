@@ -1,0 +1,12 @@
+version: 1.0.2
+files:
+  - url: electron-best-practice-1.0.2-mac.zip
+    sha512: St0msrYOkGzC+OApwkpdUYWdPSNqgH1kdy/mMxVB4z/rRNU4PJ0oNCh6TWr34mUtklAbkrXofgZzPF2RPabikg==
+    size: 80101161
+    blockMapSize: 85445
+  - url: electron-best-practice-1.0.2.dmg
+    sha512: Q/aGaqjBSd9F0aSyuskeuB9xY50Mu/Eb7VmxTvltQVETlWsjm7dPJzpjAdDbzAFnKRGujIFMyeOlp1cb6aOm8A==
+    size: 82761066
+path: electron-best-practice-1.0.2-mac.zip
+sha512: St0msrYOkGzC+OApwkpdUYWdPSNqgH1kdy/mMxVB4z/rRNU4PJ0oNCh6TWr34mUtklAbkrXofgZzPF2RPabikg==
+releaseDate: '2024-11-18T11:09:02.541Z'

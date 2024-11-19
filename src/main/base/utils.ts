@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import { openWindow } from '../workbench';
 import { constants } from '@common/index';
+import { isDev } from '../utils';
 
 let mainWindow: BrowserWindow | null;
 
@@ -46,9 +47,7 @@ const createWindow = () => {
     app.quit();
   });
 
-  console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-
-  if (process.env.NODE_ENV === 'development') {
+  if (isDev()) {
     mainWindow.webContents.openDevTools();
     mainWindow.loadURL('http://localhost:5173');
   } else {

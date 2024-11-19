@@ -4,7 +4,7 @@ const { ipcRenderer } = window.electron;
 console.log(constants);
 
 ipcRenderer.on('message', function (_event, text) {
-  console.log('renderer get message', text);
+  console.log('renderer get message: ', text);
   const container = document.getElementById('messages');
   const message = document.createElement('div');
 

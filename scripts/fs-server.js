@@ -2,6 +2,10 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const YAML = require('yaml');
+
+const yamlPath =
+  process.platform === 'darwin' ? path.resolve(__dirname, '..', './release/latest-mac.yml') : path.resolve(__dirname, '..', './release/latest.yml');
 
 const app = express();
 
@@ -13,18 +17,15 @@ app.get('/', (req, res) => {
 
   const rsp = files.map((file) => `<a href="/${file}">${file}</a>`).join('<br>');
   res.send(rsp);
+});
 
-  // console.log(file);
+app.get('/ele-app/:platform', (req, res) => {
+  const yamlData = fs.readFileSync(yamlPath, 'utf8');
+  const data = YAML.parse(yamlData);
 
-  // fs.readFile(file, (err, data) => {
-  //   if (err) {
-  //     res.status(500).send(err);
-  //   } else {
-  //     res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
-  //     res.write(data);
-  //     res.end();
-  //   }
-  // });
+  console.log(data);
+
+  res.send(data);
 });
 
 app.listen(3000, () => {

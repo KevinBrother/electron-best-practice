@@ -2,7 +2,7 @@
 
 - [x] 主进程调试
 - [x] 渲染进程调试
-- [ ] 自动更新
+- [x] 自动更新
 
 ## 问题
 
@@ -12,6 +12,6 @@
 
 ## refactor
 
-[ ] main function separate
-[ ] typescript
+[x] main function separate
+[x] typescript
 [x] eslint

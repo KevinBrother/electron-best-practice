@@ -5,5 +5,13 @@
     "target": [
       "nsis"
     ]
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "perMachine": true,
+    "allowElevation": true,
+    "createDesktopShortcut": true,
+    "runAfterFinish": true
   }
 }
