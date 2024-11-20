@@ -14,7 +14,8 @@
     "build:win": "yarn build && electron-builder --config electron-win-builder.json --win --x64 --publish never",
     "build:linux": "electron-builder --config electron-linux-builder.json --linux --x64 --publish never",
     "lint": "eslint --fix ./src ./test",
-    "update-server": "node --watch ./scripts/fs-server.js"
+    "update-server": "node --watch ./scripts/fs-server.js",
+    "test": "mocha test/*.js"
   },
   "keywords": [
     "Electron",
@@ -29,7 +30,10 @@
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@kss-frontend/lint": "0.0.2",
+    "@types/chai": "^5.0.1",
     "@types/express": "^5.0.0",
+    "@types/mocha": "^10.0.9",
+    "chai": "^5.1.2",
     "cross-env": "^7.0.3",
     "electron": "18.3.6",
     "electron-builder": "22.11.7",
@@ -38,8 +42,10 @@
     "electron-vite": "^2.3.0",
     "express": "^4.19.2",
     "http-proxy-middleware": "^3.0.0",
+    "mocha": "^10.8.2",
     "nodemon": "^3.1.7",
     "rollup-plugin-copy": "^3.5.0",
+    "ts-node": "^10.9.2",
     "vite": "^5.4.11",
     "yaml": "^2.6.0"
   }

@@ -4,12 +4,19 @@ const fs = require('fs');
 const path = require('path');
 const YAML = require('yaml');
 
-const yamlPath =
-  process.platform === 'darwin' ? path.resolve(__dirname, '..', './release/latest-mac.yml') : path.resolve(__dirname, '..', './release/latest.yml');
+const releasePath = path.resolve(__dirname, '..', './release');
+// const yamlPath =
+//   process.platform === 'darwin' ? path.resolve(releasePath, 'latest-mac.yml') : path.resolve(releasePath, 'latest.yml');
 
 const app = express();
 
-app.use(express.static(path.resolve(__dirname, '..', './release')));
+app.use(
+  express.static(path.resolve(__dirname, '..', './release'), {
+    setHeaders: (res, path) => {
+      console.log(`Serving static file: ${path}`);
+    }
+  })
+);
 
 app.get('/', (req, res) => {
   // 展示静态目录的所有文件列表
@@ -19,13 +26,18 @@ app.get('/', (req, res) => {
   res.send(rsp);
 });
 
-app.get('/ele-app/:platform', (req, res) => {
-  const yamlData = fs.readFileSync(yamlPath, 'utf8');
-  const data = YAML.parse(yamlData);
-
-  console.log(data);
-
-  res.send(data);
+app.get('/api/:filename', (req, res) => {
+  const filename = req.params.filename;
+  console.log(`api_req.params: ${JSON.stringify(req.params)}`);
+  const filePath = path.resolve(releasePath, filename);
+  if(filename.endsWith('.yml')){
+    const yamlData = fs.readFileSync(filePath, 'utf8');
+    const data = YAML.parse(yamlData);
+    res.send(data);
+  } else {
+    // 发送其他类型的文件
+    res.sendFile(filePath);
+  }
 });
 
 app.listen(3000, () => {
