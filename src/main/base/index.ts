@@ -1,9 +1,9 @@
-import log from 'electron-log';
 import { createWindow, eventHandle, lifeCycle } from './utils';
 import { updateHandle } from '../workbench';
 import { test } from './test';
+import { getFileLog } from '../utils';
 
-log.info('-----------------------Hello, log-----------------------');
+getFileLog().info('-----------------------Hello, log-----------------------');
 
 lifeCycle({
   appReady: () => {

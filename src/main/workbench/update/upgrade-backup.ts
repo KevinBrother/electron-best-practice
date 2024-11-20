@@ -1,8 +1,8 @@
 import { ipcMain, BrowserWindow, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
+import { getFileLog } from '../../utils';
 
-log.transports.file.level = 'info';
+const log = getFileLog();
 autoUpdater.logger = log;
 
 function updateHandle(mainWindow: BrowserWindow | null) {
