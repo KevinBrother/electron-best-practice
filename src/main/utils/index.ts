@@ -1,37 +1,47 @@
 import { app } from 'electron';
 import path from 'path';
+import log from 'electron-log';
 
-function getAppRootPath(): string {
+export function getFileLog() {
+  log.transports.file.level = 'info';
+
+  // 自定义日志存储路径
+  log.transports.file.resolvePath = () => {
+    return path.join(getAppRootPath(), 'logs', 'app.log'); // 这里将日志存储在项目的 "logs" 文件夹下
+  };
+
+  return log;
+}
+
+export function getAppRootPath(): string {
   if (process.env.NODE_ENV === 'development') {
     return path.resolve(__dirname, '..', '..');
   }
   return path.resolve(app.getAppPath(), '..');
 }
 
-function getConfigPath(configName: string): string {
+export function getConfigPath(configName: string): string {
   return path.join(getAppRootPath(), 'config', configName);
 }
 
-function getPlatform(): string {
+export function getPlatform(): string {
   return process.platform;
 }
 
-function isWindows(): boolean {
+export function isWindows(): boolean {
   return process.platform === 'win32';
 }
 
-function isMac(): boolean {
+export function isMac(): boolean {
   return process.platform === 'darwin';
 }
 
-function isLinux(): boolean {
+export function isLinux(): boolean {
   console.log('process.platform', process.platform);
   return !isWindows() && !isMac();
 }
 
-function isDev(): boolean {
+export function isDev(): boolean {
   console.log('process.env.NODE_ENV', process.env.NODE_ENV);
   return process.env.NODE_ENV === 'development';
 }
-
-export { getAppRootPath, getConfigPath, getPlatform, isWindows, isMac, isLinux, isDev };
