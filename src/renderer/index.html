@@ -3,35 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
-    />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'" />
     <link href="./styles.css" rel="stylesheet" />
     <title>Hello World!</title>
+    <style>
+      figure {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px;
+      }
+      div {
+        overflow: auto;
+      }
+    </style>
   </head>
   <body>
     <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>, Chromium
-    <span id="chrome-version"></span>, and Electron
-    <span id="electron-version"></span>
-    这是
+    We are using Node.js <span id="node-version"></span>, Chromium <span id="chrome-version"></span>, and Electron
+    <span id="electron-version"></span> .
+    Here is 
     <span id="appName"></span> :<span id="app-version"></span>
 
-    <div class="border">
-      messages:
-      <div id="messages"></div>
-    </div>
-    <div class="border">
-      download-progress:
-      <div id="download-progress"></div>
-    </div>
+    <figure>
+      <figcaption><b>软件更新:</b></figcaption>
+      <div>
+        <div class="border">
+          messages:
+          <div id="messages"></div>
+        </div>
+        <div class="border">
+          download-progress:
+          <div id="download-progress"></div>
+        </div>
+        <div>
+          <input type="checkbox" id="autoUpdate" />
+          <label for="autoUpdate">自动更新</label>
+        </div>
+        <button id="checkForUpdate">检查是否有更新，并下载</button>
+        <button id="update-now">开始更新</button>
+      </div>
+    </figure>
 
-    <button id="checkForUpdate">检查是否有更新</button>
-
-    <button id="update-now">立即更新</button>
-
-    <textarea name="" id="winConfig" cols="30" rows="10">
+    <figure>
+      <figcaption><b>新建窗口配置:</b></figcaption>
+      <div>
+        <textarea name="" id="winConfig" cols="30" rows="10">
       {
         "width": 800,
         "height": 600,
@@ -41,9 +57,12 @@
         "transparent": true,
         "backgroundColor": "rgba(0, 0, 0, 0)"
       }
-    </textarea>
+      </textarea
+        >
+      </div>
 
-    <button id="openWindow">打开新窗口</button>
+      <button id="openWindow">打开新窗口</button>
+    </figure>
     <!-- You can also require other files to run in this process -->
     <script type="module" src="./renderer.ts"></script>
   </body>
