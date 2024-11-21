@@ -4,7 +4,6 @@ const { ipcRenderer } = window.electron;
 console.log(constants);
 
 ipcRenderer.on('message', function (_event, text) {
-  console.log('renderer get message: ', text);
   const container = document.getElementById('messages');
   const message = document.createElement('div');
 
@@ -22,6 +21,10 @@ ipcRenderer.on('download-progress', function (_event, text) {
   container?.appendChild(message);
 });
 
+document.getElementById('autoUpdate')?.addEventListener('click', function () {
+  ipcRenderer.send('autoUpdate', (document.getElementById('autoUpdate') as HTMLInputElement)?.checked);
+});
+
 document.getElementById('update-now')?.addEventListener('click', function () {
   console.log('update-now clicked');
   ipcRenderer.invoke('updateNow').then((rst) => {
@@ -30,7 +33,6 @@ document.getElementById('update-now')?.addEventListener('click', function () {
 });
 
 document.getElementById('checkForUpdate')?.addEventListener('click', function () {
-  console.log('checkForUpdate');
   ipcRenderer.send('checkForUpdate');
 });
 

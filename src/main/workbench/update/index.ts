@@ -30,23 +30,23 @@ function updateHandle(mainWindow: BrowserWindow | null) {
   autoUpdater.on('checking-for-update', () => {
     sendUpdateMessage(mainWindow, 'checking', message.checking);
   });
+
   autoUpdater.on('update-available', (info: UpdateInfo) => {
     sendUpdateMessage(mainWindow, 'updateAvailable', JSON.stringify(info));
-    // 手动下载
-    autoUpdater
-      .downloadUpdate()
-      .then((rst) => {
-        log.info('---------------------downloadUpdate success---------------------', rst);
-        sendUpdateMessage(mainWindow, 'downloadUpdate-success', JSON.stringify(rst));
-      })
-      .catch((err) => {
-        log.error('------------downloadUpdate error------------', err);
-        sendUpdateMessage(mainWindow, 'downloadUpdate-error', JSON.stringify(err));
-      });
   });
 
-  autoUpdater.on('update-not-available', (data) => {
-    console.log('update-not-available', data);
+  function manualDownloadHandle() {
+    
+    return new Promise((resolve) => {
+      autoUpdater.downloadUpdate().then((rst) => {
+        log.info('---------------------manualDownloadHandle---------------------');
+        sendUpdateMessage(mainWindow, 'downloadProgress', JSON.stringify(rst));
+        resolve(rst);
+      });
+    });
+  }
+
+  autoUpdater.on('update-not-available', () => {
     sendUpdateMessage(mainWindow, 'updateNotAvailable', message.updateNotAvailable);
   });
 
@@ -58,45 +58,45 @@ function updateHandle(mainWindow: BrowserWindow | null) {
     sendUpdateMessage(mainWindow, 'downloadProgress', logMessage);
   });
 
+  ipcMain.on('autoUpdate', (_, checked) => {
+    console.log('autoUpdate', checked);
+    if (checked) {
+      Promise.resolve()
+        .then(() => {
+          return checkForUpdate(mainWindow);
+        })
+        .then(() => {
+          return manualDownloadHandle();
+        })
+        .then(() => {
+          console.log('开始更新');
+          autoUpdater.quitAndInstall();
+        });
+    }
+  });
+
   ipcMain.on('checkForUpdate', () => {
-    // 每次检查更新时 读取 config/config.json的 updateUrl 字段
-    const config = fs.readFileSync(getConfigPath('config.json'), 'utf8');
-    const configObj = JSON.parse(config);
-    console.log('configObj', configObj);
-
-    autoUpdater.setFeedURL(configObj.updateUrl);
-
-    // autoUpdater.setFeedURL({
-    //   provider: 'generic',
-    //   url: configObj.updateUrl,
-    //   channel: 'latest-ba'
-    // });
-
-    autoUpdater
-      .checkForUpdates()
-      .then((rst) => {
-        log.info('---------------------checkForUpdates success---------------------', rst);
-        sendUpdateMessage(mainWindow, 'checkForUpdates-success', JSON.stringify(rst));
+    Promise.resolve()
+      .then(() => {
+        return checkForUpdate(mainWindow);
       })
-      .catch((err) => {
-        log.error('------------checkForUpdates error------------', err);
-        sendUpdateMessage(mainWindow, 'checkForUpdates-error', JSON.stringify(err));
+      .then(() => {
+        return manualDownloadHandle(); // manualDownloadHandle can be called here
       });
   });
 
   ipcMain.handle('updateNow', () => {
     log.info('开始更新');
 
-    const buttons = ['Sure, get me a new version!', "Nah, I'm good, I can wait."];
+    const buttons = ['启动', '取消'];
     const options = {
       type: 'question',
-      message: 'Hey, new version of app is downloaded! Do you want to restart it now and get the newest version?',
+      message: '新版本已经下载好啦，开始更新吗？',
       cancelId: -1,
       buttons
     };
 
     dialog.showMessageBox(mainWindow!, options).then((response) => {
-      console.log('response', response);
       if (response.response === 0) {
         autoUpdater.quitAndInstall();
       }
@@ -108,6 +108,27 @@ function updateHandle(mainWindow: BrowserWindow | null) {
 
 function sendUpdateMessage(mainWindow: BrowserWindow | null, key: string, text: string) {
   mainWindow?.webContents.send('message', `${key}: ${text}`);
+}
+
+function checkForUpdate(mainWindow: BrowserWindow | null) {
+  // 每次检查更新时 读取 config/config.json的 updateUrl 字段
+  const config = fs.readFileSync(getConfigPath('config.json'), 'utf8');
+  const configObj = JSON.parse(config);
+  log.info('--------------------- configObj ---------------------', configObj);
+
+  autoUpdater.setFeedURL(configObj.updateUrl);
+
+  return autoUpdater
+    .checkForUpdates()
+    .then((rst) => {
+      sendUpdateMessage(mainWindow, 'checkForUpdates-success', JSON.stringify(rst));
+      log.info('---------------------checkForUpdates success---------------------');
+      return rst;
+    })
+    .catch((err) => {
+      log.error('------------checkForUpdates error------------', err);
+      sendUpdateMessage(mainWindow, 'checkForUpdates-error', JSON.stringify(err));
+    });
 }
 
 export { updateHandle };
