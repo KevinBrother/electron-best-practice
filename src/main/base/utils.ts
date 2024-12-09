@@ -32,8 +32,6 @@ const createWindow = () => {
       preload: path.resolve(__dirname, '..', './preload/index.js')
     }
   });
-  // 默认打开 devTools
-  mainWindow.webContents.openDevTools();
 
   mainWindow.maximize();
   mainWindow.show();
