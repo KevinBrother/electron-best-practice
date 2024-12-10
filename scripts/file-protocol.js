@@ -3,7 +3,8 @@ const path = require('path');
 const { pathToFileURL, fileURLToPath } = require('url');
 
 // 1. 获取文件路径（文件协议 URL）
-const filePath = path.resolve(__dirname, '..', 'release', 'latest-mac.yml');
+// 使用 path.join 以兼容不同操作系统的路径分隔符
+const filePath = path.join(__dirname, '..', 'release', 'latest.yml');
 const fileURL = pathToFileURL(filePath);
 console.log('文件协议 URL:', fileURL.href);
 
