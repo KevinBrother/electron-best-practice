@@ -30,7 +30,7 @@ app.get('/api/:filename', (req, res) => {
   const filename = req.params.filename;
   console.log(`api_req.params: ${JSON.stringify(req.params)}`);
   const filePath = path.resolve(releasePath, filename);
-  if(filename.endsWith('.yml')){
+  if (filename.endsWith('.yml')) {
     const yamlData = fs.readFileSync(filePath, 'utf8');
     const data = YAML.parse(yamlData);
     res.send(data);
