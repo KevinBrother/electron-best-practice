@@ -13,6 +13,7 @@
     "build:mac": "yarn build && electron-builder --config electron-mac-builder.json --mac --x64 --publish never",
     "build:win": "yarn build && electron-builder --config electron-win-builder.json --win --x64 --publish never",
     "build:linux": "electron-builder --config electron-linux-builder.json --linux --x64 --publish never",
+    "api:build": "node scripts/pack-scripts/index.js",
     "lint": "eslint --fix ./src ./test",
     "update-server": "nodemon ./scripts/fs-server.js",
     "test": "mocha test/*.js"
