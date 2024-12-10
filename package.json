@@ -24,7 +24,11 @@
     "tutorial",
     "demo"
   ],
-  "author": "kevinbrother",
+  "author": {
+    "name": "kevinbrother",
+    "email": "1301239018@qq.com"
+  },
+  "homepage": "https://kssbox.com",
   "license": "MIT",
   "devDependencies": {
     "@electron-toolkit/preload": "^3.0.1",
