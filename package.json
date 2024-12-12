@@ -29,7 +29,7 @@
   "devDependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/tsconfig": "^1.0.1",
-    "@kss-frontend/lint": "0.0.2",
+    "@kss-frontend/lint": "0.0.5",
     "@types/chai": "^5.0.1",
     "@types/express": "^5.0.0",
     "@types/mocha": "^10.0.9",

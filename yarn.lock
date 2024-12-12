@@ -419,19 +419,19 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@kss-frontend/eslint-plugin@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.npmmirror.com/@kss-frontend/eslint-plugin/-/eslint-plugin-0.0.1.tgz#513bb42af89a1b0ee2190fd02d5ed703469790e1"
-  integrity sha512-yUP1G2TfFQrhWNIV2l+PgM1IOUOCp/diS4qlWAEsCqGjllyyiPoBplf8Syrhoje7BlPv1Cqze4Z1V3TjCesABw==
+"@kss-frontend/eslint-plugin@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.npmmirror.com/@kss-frontend/eslint-plugin/-/eslint-plugin-0.0.5.tgz#86bfd9175b340505e608912c537bfafb6b170d02"
+  integrity sha512-Aon5lS4xOxeI6+VQGbBZmi2qiFC9EPHdLfIiNBQXylZhghJjhhmq6ZIkazw61wpdkexT7ipqvZ8jggKTeB45pg==
   dependencies:
     requireindex "1.2.0"
 
-"@kss-frontend/lint@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.npmmirror.com/@kss-frontend/lint/-/lint-0.0.2.tgz#268f148e84abc11fc314c5b42e16eb8685747312"
-  integrity sha512-dP3fTWhatUT+rKLtelUQLDfvZwtdtCazLhOrUCKNt1lQqREZps3KuWrqjsXyIpou4LAhI9czKVgxCQM2AZOSAQ==
+"@kss-frontend/lint@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.npmmirror.com/@kss-frontend/lint/-/lint-0.0.5.tgz#2de78bde0063496ac84cfd885d9287eee056819a"
+  integrity sha512-Ucn9IVexEO9tfUg4WwywawCmNzjdCyN3PtBCYOC8HjfXGYK4vH7FLRLfjlIddkwYglwdveV9yReDUfayfsvxqA==
   dependencies:
-    "@kss-frontend/eslint-plugin" "^0.0.1"
+    "@kss-frontend/eslint-plugin" "0.0.5"
     "@types/node" "^22.9.0"
     "@typescript-eslint/eslint-plugin" "6.13.2"
     "@typescript-eslint/parser" "6.13.2"
