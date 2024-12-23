@@ -2,7 +2,13 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import { openWindow } from '../workbench';
 import { constants } from '@common/index';
-import { isDev } from '../utils';
+import { isDev, getFileLog } from '../utils';
+
+const log = getFileLog();
+
+function logTime(str: string) {
+  log.info(`${str} time: ${new Date().toISOString().split('T')[1].split('.')[0]}`);
+}
 
 let mainWindow: BrowserWindow | null;
 
@@ -62,32 +68,38 @@ function lifeCycle({ appReady }: { appReady: () => void }) {
     app.quit();
   } else {
     app.on('ready', () => {
+      logTime('app ready');
       appReady();
     });
 
     app.on('window-all-closed', () => {
+      logTime('window all closed');
       app.quit();
     });
 
     // Ensure the app quits when the dev command is terminated
     app.on('before-quit', () => {
       if (mainWindow) {
+        logTime('before quit');
         mainWindow.close();
       }
     });
 
     // Listen for the 'SIGINT' signal to quit the app
     process.on('SIGINT', () => {
+      logTime('SIGINT');
       app.quit();
     });
 
     app.on('activate', () => {
+      logTime('activate');
       if (mainWindow === null) {
         createWindow();
       }
     });
 
     app.on('certificate-error', (event, _webContents, _url, _error, _certificate, callback) => {
+      logTime('certificate-error');
       event.preventDefault();
       callback(true);
     });
