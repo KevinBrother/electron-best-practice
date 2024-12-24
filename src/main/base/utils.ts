@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import path from 'path';
 import { openWindow } from '../workbench';
 import { constants } from '@common/index';
@@ -64,9 +64,34 @@ const createWindow = () => {
 function lifeCycle({ appReady }: { appReady: () => void }) {
   const gotTheLock = app.requestSingleInstanceLock();
 
+  if (process.defaultApp) {
+    if (process.argv.length >= 2) {
+      app.setAsDefaultProtocolClient('kss-ele', process.execPath, [path.resolve(process.argv[1])])
+    }
+  } else {
+    app.setAsDefaultProtocolClient('kss-ele')
+  }
+
   if (!gotTheLock) {
     app.quit();
   } else {
+    // window 下处理 special protocol 协议
+    app.on('second-instance', (event, commandLine, workingDirectory) => {
+      // Someone tried to run a second instance, we should focus our window.
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) mainWindow.restore()
+        mainWindow.focus()
+      }
+  
+      console.log(commandLine, workingDirectory)
+    })
+
+    // macos 下处理 special protocol 协议
+    app.on('open-url', function (event, url) {
+      event.preventDefault();
+      shell.openExternal(url);
+    })
+
     app.on('ready', () => {
       logTime('app ready');
       appReady();
