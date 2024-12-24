@@ -1,4 +1,5 @@
 import { app } from 'electron';
+import os from 'os';
 import path from 'path';
 import log from 'electron-log';
 
@@ -7,7 +8,7 @@ export function getFileLog() {
 
   // 自定义日志存储路径
   log.transports.file.resolvePath = () => {
-    return path.join(getAppRootPath(), 'logs', 'app.log'); // 这里将日志存储在项目的 "logs" 文件夹下
+    return path.join(getConfigPath('logs'), 'app.log'); // 这里将日志存储在项目的 "logs" 文件夹下
   };
 
   return log;
@@ -21,7 +22,7 @@ export function getAppRootPath(): string {
 }
 
 export function getConfigPath(configName: string): string {
-  return path.join(getAppRootPath(), 'config', configName);
+  return path.resolve(os.homedir(), '.kss-ele', 'config', configName);
 }
 
 export function getPlatform(): string {

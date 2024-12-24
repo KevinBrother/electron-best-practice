@@ -110,6 +110,11 @@ function lifeCycle({ appReady }: { appReady: () => void }) {
       }
     });
 
+    app.on('quit', () => {
+      // 自动更新 会触发 before-quit 事件，但不会触发 quit 事件，更新完成后，会触发 ready 事件
+      logTime('quit');
+    })
+
     // Listen for the 'SIGINT' signal to quit the app
     process.on('SIGINT', () => {
       logTime('SIGINT');
