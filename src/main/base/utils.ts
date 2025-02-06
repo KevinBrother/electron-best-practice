@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'path';
 import { openWindow } from '../workbench';
 import { constants } from '@common/index';
@@ -66,10 +66,10 @@ function lifeCycle({ appReady }: { appReady: () => void }) {
 
   if (process.defaultApp) {
     if (process.argv.length >= 2) {
-      app.setAsDefaultProtocolClient('kss-ele', process.execPath, [path.resolve(process.argv[1])])
+      app.setAsDefaultProtocolClient('kss-ele', process.execPath, [path.resolve(process.argv[1])]);
     }
   } else {
-    app.setAsDefaultProtocolClient('kss-ele')
+    app.setAsDefaultProtocolClient('kss-ele');
   }
 
   if (!gotTheLock) {
@@ -79,18 +79,18 @@ function lifeCycle({ appReady }: { appReady: () => void }) {
     app.on('second-instance', (event, commandLine, workingDirectory) => {
       // Someone tried to run a second instance, we should focus our window.
       if (mainWindow) {
-        if (mainWindow.isMinimized()) mainWindow.restore()
-        mainWindow.focus()
+        if (mainWindow.isMinimized()) mainWindow.restore();
+        mainWindow.focus();
       }
-  
-      console.log(commandLine, workingDirectory)
-    })
+
+      console.log(commandLine, workingDirectory);
+    });
 
     // macos 下处理 special protocol 协议
     app.on('open-url', function (event, url) {
       event.preventDefault();
       shell.openExternal(url);
-    })
+    });
 
     app.on('ready', () => {
       logTime('app ready');
@@ -113,7 +113,7 @@ function lifeCycle({ appReady }: { appReady: () => void }) {
     app.on('quit', () => {
       // 自动更新 会触发 before-quit 事件，但不会触发 quit 事件，更新完成后，会触发 ready 事件
       logTime('quit');
-    })
+    });
 
     // Listen for the 'SIGINT' signal to quit the app
     process.on('SIGINT', () => {
