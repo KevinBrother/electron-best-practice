@@ -26,3 +26,5 @@ if (process.contextIsolated) {
 } else {
   window.electron = electronAPI;
 }
+
+process.test = 'test';

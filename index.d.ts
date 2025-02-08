@@ -7,4 +7,10 @@ declare global {
     electron: ElectronAPI;
     good: string;
   }
+
+  namespace NodeJS {
+    interface Process {
+      test: string;
+    }
+  }
 }
