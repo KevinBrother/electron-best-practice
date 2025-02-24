@@ -45,7 +45,8 @@ export default defineConfig({
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'src/renderer/index.html'),
-          windows: resolve(__dirname, 'src/renderer/windows/index.html')
+          windows: resolve(__dirname, 'src/renderer/windows/index.html'),
+          editor: resolve(__dirname, 'src/renderer/editor/index.html')
         }
       }
     }

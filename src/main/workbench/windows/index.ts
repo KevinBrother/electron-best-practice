@@ -1,23 +1,17 @@
 import { BrowserWindow, screen } from 'electron';
 import path from 'path';
+import { getRenderPath } from '../../utils';
+import { TOpenConfig } from '@common/modal';
 
-function openWindow(winConfig: string) {
+function openWindow(winConfig : TOpenConfig) {
   const { width, height, x, y } = screen.getPrimaryDisplay().bounds;
-
-  let _winConfig: { width?: number; height?: number; x?: number; y?: number } = {};
-
-  try {
-    _winConfig = JSON.parse(winConfig);
-  } catch (error) {
-    console.error('winConfig 格式错误', error);
-    return null;
-  }
+  const { width: _width, height: _height, x: _x, y: _y, filePath } = winConfig;
 
   const win = new BrowserWindow({
-    width: _winConfig.width || width,
-    height: _winConfig.height || height,
-    x: _winConfig.x || x,
-    y: _winConfig.y || y,
+    width: _width || width,
+    height: _height || height,
+    x: _x || x,
+    y: _y || y,
     webPreferences: {
       sandbox: false,
       devTools: true,
@@ -27,10 +21,11 @@ function openWindow(winConfig: string) {
       nodeIntegrationInWorker: true,
       preload: path.resolve(__dirname, '../', './preload/index.js')
     },
-    ..._winConfig
+    ...winConfig
   });
 
-  win.loadFile('dist/renderer/windows/index.html');
+  win.loadFile(path.resolve(getRenderPath(), filePath || 'default/index.html'));
+
   return win;
 }
 

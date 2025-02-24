@@ -1,4 +1,6 @@
 import { constants } from '@common/index';
+import { TOpenConfig } from '@common/modal';
+import { EditorWindowID, OpenWindowID } from './constants';
 const { ipcRenderer } = window.electron;
 
 console.log(constants);
@@ -42,7 +44,40 @@ document.getElementById('openWindow')?.addEventListener('click', function () {
   const winConfig = (document.getElementById('winConfig') as HTMLTextAreaElement)?.value;
   console.log('winConfig', winConfig);
 
-  ipcRenderer.invoke('openWindow', winConfig).then((rst) => {
-    console.log('openWindow ', rst);
+  try {
+    const config = JSON.parse(winConfig);
+    config.filePath = 'windows/index.html';
+    
+    config.id = OpenWindowID;
+
+    ipcRenderer.invoke('openWindow', config).then((rst) => {
+      console.log('openWindow ', rst);
+    }).catch((error) => {
+      console.error('Error opening window:', error);
+    });
+  } catch (error) {
+    console.error('Error parsing window config:', error);
+  }
+});
+
+document.getElementById('openEditor')?.addEventListener('click', function () {
+  console.log('openEditor');
+
+  const defaultConfig: TOpenConfig = {
+    id: EditorWindowID,
+    width: 800,
+    height: 600,
+    x: 100,
+    y: 100,
+    frame: false,
+    transparent: true,
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    filePath: 'editor/index.html'
+  };
+
+  ipcRenderer.invoke('openWindow', defaultConfig).then((rst) => {
+    console.log('openEditor ', rst);
+  }).catch((error) => {
+    console.error('Error opening editor:', error);
   });
 });

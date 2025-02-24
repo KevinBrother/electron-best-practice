@@ -18,7 +18,14 @@ export function getAppRootPath(): string {
   if (process.env.NODE_ENV === 'development') {
     return path.resolve(__dirname, '..', '..');
   }
-  return path.resolve(app.getAppPath(), '..');
+  return path.resolve(app.getAppPath());
+}
+
+export function getRenderPath(): string {
+  if (process.env.NODE_ENV === 'development') {
+    return path.resolve(getAppRootPath(), 'src', 'renderer');
+  }
+  return path.resolve(getAppRootPath(), 'renderer');
 }
 
 export function getConfigPath(configName: string): string {

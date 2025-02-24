@@ -13,8 +13,10 @@ function logTime(str: string) {
 let mainWindow: BrowserWindow | null;
 
 const eventHandle = () => {
+  const winMap = new Map<string, BrowserWindow>();
   ipcMain.handle('openWindow', async (_event, arg) => {
-    const win = openWindow(arg);
+    const win = openWindow(arg);  
+    winMap.set(arg.id, win);
     win?.webContents.openDevTools();
     return win ? 'success' : 'fail';
   });
