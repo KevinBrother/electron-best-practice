@@ -15,7 +15,6 @@ let mainWindow: BrowserWindow | null;
 const eventHandle = () => {
   ipcMain.handle('openWindow', async (_event, arg) => {
     const win = openWindow(arg);
-    win?.webContents.openDevTools();
     return win ? 'success' : 'fail';
   });
 

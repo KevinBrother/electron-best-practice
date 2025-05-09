@@ -4,7 +4,7 @@
   "description": "electron best practice",
   "main": "./dist/main/index.js",
   "scripts": {
-    "dev": "yarn start",
+    "dev": "yarn build && yarn start",
     "start": "electron-vite dev -w",
     "start-backup": "cross-env NODE_ENV=development electron . --remote-debugging-port=9222",
     "build": "electron-vite build",
