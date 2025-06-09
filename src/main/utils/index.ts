@@ -22,7 +22,8 @@ export function getAppRootPath(): string {
 }
 
 export function getConfigPath(configName: string): string {
-  return path.resolve(os.homedir(), '.kss-ele', 'config', configName);
+  // return path.resolve(os.homedir(), '.kss-ele', 'config', configName);
+  return path.resolve(getAppRootPath(), 'config', configName);
 }
 
 export function getPlatform(): string {
