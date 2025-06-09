@@ -1,7 +1,7 @@
 {
   "extends": "./electron-base-builder.json",
   "win": {
-    "icon": "resources/icon.ico",
+    "icon": "resources/icons/icon.ico",
     "target": [
       "portable"
     ]
