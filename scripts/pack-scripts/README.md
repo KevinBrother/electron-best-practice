@@ -12,14 +12,15 @@ node scripts/pack-scripts/test/win-test.js
 
 ``` bash
 # windows 环境
-# export RPA_PACK_ARCH=x86 RPA_PACK_PLATFORM=windows  RPA_PACK_TARGET_FORMAT=nsis
-export RPA_PACK_ARCH=x86 RPA_PACK_PLATFORM=windows  RPA_PACK_TARGET_FORMAT=portable,nsis
+# export RPA_PACK_ARCH=arm64 RPA_PACK_PLATFORM=windows  RPA_PACK_TARGET_FORMAT=nsis
+export RPA_PACK_ARCH=x64 RPA_PACK_PLATFORM=windows  RPA_PACK_TARGET_FORMAT=portable,nsis
 
 # mac 环境
-# export RPA_PACK_ARCH=x86 RPA_PACK_PLATFORM=darwin  RPA_PACK_TARGET_FORMAT=dmg
+# export RPA_PACK_ARCH=arm64 RPA_PACK_PLATFORM=darwin  RPA_PACK_TARGET_FORMAT=dmg
 
 # linux 环境 
-# export RPA_PACK_ARCH=x86 RPA_PACK_PLATFORM=linux  RPA_PACK_TARGET_FORMAT=deb
+export RPA_PACK_ARCH=arm64 RPA_PACK_PLATFORM=linux  RPA_PACK_TARGET_FORMAT=AppImage
+# export RPA_PACK_ARCH=x64 RPA_PACK_PLATFORM=linux  RPA_PACK_TARGET_FORMAT=deb
 
 node scripts/pack-scripts/index.js 
 ```

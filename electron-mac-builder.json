@@ -1,9 +1,9 @@
 {
   "extends": "./electron-base-builder.json",
   "mac": {
-    "icon": "resources/icons/icon.icns",
+    "icon": "resources/icon.icns",
     "target": [
-      "zip", "dmg"
+      "dmg"
     ]
   }
 }
