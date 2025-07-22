@@ -103,10 +103,7 @@ function lifeCycle({ appReady }: { appReady: () => void }) {
 
     // Ensure the app quits when the dev command is terminated
     app.on('before-quit', () => {
-      if (mainWindow) {
-        logTime('before quit');
-        mainWindow.close();
-      }
+      logTime('before quit');
     });
 
     app.on('quit', () => {
