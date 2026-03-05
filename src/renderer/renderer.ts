@@ -1,4 +1,6 @@
 import { constants } from '@common/index';
+import { add1 } from './utils';
+console.log('add(1,2)', add1(1,2))
 const { ipcRenderer } = window.electron;
 
 console.log(constants);

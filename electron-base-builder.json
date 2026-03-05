@@ -5,6 +5,11 @@
     {
       "from": "./config",
       "to": "config"
+    },
+    {
+      "from": "./native/dist",
+      "to": "native",
+      "filter": ["**/*.zip"]
     }
   ],
   "files": [

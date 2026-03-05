@@ -4,3 +4,6 @@ node_modules
 release
 tmp
 logs
+
+# Native module build artifacts (built in CI)
+native/dist/*.zip

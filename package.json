@@ -31,7 +31,12 @@
   },
   "homepage": "https://kssbox.com",
   "license": "MIT",
+  "sideEffect": false,
+  "dependencies": {
+    "adm-zip": "^0.5.10"
+  },
   "devDependencies": {
+    "@types/adm-zip": "^0.5.5",
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@kss-frontend/lint": "0.0.5",

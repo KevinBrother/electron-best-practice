@@ -1,0 +1,5 @@
+{
+  "name": "electron-best-practice",
+  "version": "1.0.0",
+  "message": "Hello from native module"
+}
