@@ -1,9 +1,10 @@
 import { createWindow, eventHandle, lifeCycle } from './utils';
-import { updateHandle } from '../workbench';
+import { updateHandle, startEnvPrinter } from '../workbench';
 import { test } from './test';
 import { getFileLog } from '../utils';
 
-getFileLog().info('-----------------------Hello, log-----------------------');
+const fileLog = getFileLog();
+fileLog.info('-----------------------Hello, log-----------------------');
 
 lifeCycle({
   appReady: () => {
@@ -11,5 +12,10 @@ lifeCycle({
     eventHandle();
     updateHandle(mainWindow);
     test(mainWindow);
+    
+    // 启动 Go 子进程打印环境变量
+    startEnvPrinter((message: string) => {
+      fileLog.info(message);
+    });
   }
 });
