@@ -1,0 +1,134 @@
+stages:
+  - build
+  - release
+
+variables:
+  GIT_STRATEGY: none
+  REPO_NAMESPACE: caojunjie
+  REPO_NAME: electron-best-practice
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "master"
+      variables:
+        PRE_TAG: "release"
+    - if: $CI_COMMIT_REF_NAME =~ /^feat\/.*$/
+      variables:
+        PRE_TAG: "dev"
+    - when: always
+
+before_script:
+  - echo '开始构建 electron-best-practice'
+  - echo '分支:' $CI_COMMIT_REF_NAME
+  - echo '提交ID:' $CI_COMMIT_SHA
+  - echo '触发用户:' $GITLAB_USER_NAME
+  - mkdir -p $REPO_NAME
+  - cd $REPO_NAME
+  - git init
+  - git remote add origin ssh://git@git.datagrand.com:58422/$REPO_NAMESPACE/$REPO_NAME.git
+  - git fetch --depth=1 origin $CI_COMMIT_SHA
+  - git reset --hard FETCH_HEAD
+  - export DATE=$(date +%Y%m%d)
+  - export IMAGE_TAG="${PRE_TAG}_${DATE}_${CI_COMMIT_SHA:0:8}"
+
+build:native:
+  stage: build
+  script:
+    - echo '编译 native module (Go 程序)'
+    - cd native && ./build.sh all
+    - ls -la dist/
+  artifacts:
+    name: native-modules
+    paths:
+      - native/dist/*.zip
+    expire_in: 1 day
+  allow_failure: false
+  tags:
+    - macos
+
+build:mac:
+  stage: build
+  needs:
+    - build:native
+  script:
+    - echo '安装依赖'
+    - yarn install --frozen-lockfile
+    - echo '构建 macOS 版本'
+    - yarn build:mac
+    - ls -la release/
+  artifacts:
+    name: mac-build
+    paths:
+      - release/mac/
+    expire_in: 7 days
+  allow_failure: false
+  only:
+    - main
+    - master
+    - /^feat\/.*$/
+  tags:
+    - macos
+
+build:win:
+  stage: build
+  needs:
+    - build:native
+  script:
+    - echo '安装依赖'
+    - yarn install --frozen-lockfile
+    - echo '构建 Windows 版本'
+    - yarn build:win
+    - ls -la release/
+  artifacts:
+    name: win-build
+    paths:
+      - release/*.exe
+      - release/*.yml
+    expire_in: 7 days
+  allow_failure: false
+  only:
+    - main
+    - master
+  tags:
+    - macos
+
+build:linux:
+  stage: build
+  needs:
+    - build:native
+  script:
+    - echo '安装依赖'
+    - yarn install --frozen-lockfile
+    - echo '构建 Linux 版本'
+    - yarn build:linux
+    - ls -la release/
+  artifacts:
+    name: linux-build
+    paths:
+      - release/*.AppImage
+      - release/*.deb
+      - release/*.rpm
+    expire_in: 7 days
+  allow_failure: false
+  only:
+    - main
+    - master
+  tags:
+    - macos
+
+release:
+  stage: release
+  needs:
+    - build:mac
+    - build:win
+    - build:linux
+  script:
+    - echo '发布版本'
+    - ls -la release/
+    - echo '镜像版本:' $IMAGE_TAG
+  allow_failure: false
+  only:
+    - main
+    - master
+  tags:
+    - macos
