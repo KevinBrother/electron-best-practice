@@ -3,6 +3,7 @@ stages:
 
 variables:
   GIT_STRATEGY: fetch
+  GIT_SSL_NO_VERIFY: "1"
   IMAGE_NAME: dockerhub.datagrand.com/caojunjie/electron-best-practice/$CI_COMMIT_REF_NAME
 
 before_script:
