@@ -2,15 +2,6 @@ FROM dockerhub.datagrand.com/ci_runner/frontend_web:16.14.0
 
 WORKDIR /app
 
-# Install dependencies for electron-builder
-RUN apt-get update && apt-get install -y \
-    wine \
-    wine32 \
-    wine64 \
-    libwine \
-    fonts-wine \
-    && rm -rf /var/lib/apt/lists/*
-
 COPY ./package.json ./yarn.lock /app/
 
 RUN yarn config set registry https://registry.npmmirror.com/ \
