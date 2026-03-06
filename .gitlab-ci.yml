@@ -1,66 +1,26 @@
 stages:
-  - install
-  - lint
-  - test
   - build
 
 variables:
-  ELECTRON_CACHE: .cache/electron
-  ELECTRON_BUILDER_CACHE: .cache/electron-builder
+  GIT_STRATEGY: fetch
+  IMAGE_NAME: dockerhub.datagrand.com/caojunjie/electron-best-practice/$CI_COMMIT_REF_NAME
 
-# Cache node_modules and electron caches between jobs
-.node_cache:
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
-      - .cache/
+before_script:
+  - docker login -u $ci_harbor_pull_u -p $ci_harbor_pull_p http://dockerhub.datagrand.com
+  - echo 'commit id full:' $CI_COMMIT_SHA
+  - export DATE=$(git log -1 --pretty=format:"%ad" --date=format:'%Y%m%d' $CI_COMMIT_SHA)
+  - export IMAGE_TAG="ci"_$DATE"_"${CI_COMMIT_SHA:0:8}
 
-# Install dependencies
-install:
-  stage: install
-  extends: .node_cache
-  image: node:18
-  script:
-    - yarn install --frozen-lockfile
-  artifacts:
-    paths:
-      - node_modules/
-    expire_in: 1 hour
-
-# Lint code
-lint:
-  stage: lint
-  extends: .node_cache
-  image: node:18
-  needs:
-    - install
-  script:
-    - yarn lint
-  allow_failure: true
-
-# Run tests
-test:
-  stage: test
-  extends: .node_cache
-  image: node:18
-  needs:
-    - install
-  script:
-    - yarn test
-  allow_failure: true
-
-# Build for Linux
 build:linux:
   stage: build
-  extends: .node_cache
-  image: electronuser/electron-builder:latest
-  needs:
-    - install
   script:
-    - yarn build
-    - yarn build:linux
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile.linux .
+    - echo '镜像名称:' $IMAGE_NAME:$IMAGE_TAG
+    - docker rm -f temp_container || true
+    - docker create --name temp_container $IMAGE_NAME:$IMAGE_TAG && docker cp temp_container:/app/release release && docker rm temp_container
+  allow_failure: false
   artifacts:
+    name: electron-build-linux
     paths:
       - release/
     expire_in: 1 week
@@ -68,43 +28,3 @@ build:linux:
     - main
     - master
     - tags
-
-# Build for Windows (cross-compile on Linux)
-build:win:
-  stage: build
-  extends: .node_cache
-  image: electronuser/electron-builder:latest
-  needs:
-    - install
-  script:
-    - yarn build
-    - yarn build:win
-  artifacts:
-    paths:
-      - release/
-    expire_in: 1 week
-  only:
-    - main
-    - master
-    - tags
-
-# Build for macOS (requires macOS runner)
-# Uncomment if you have a macOS runner
-# build:mac:
-#   stage: build
-#   extends: .node_cache
-#   tags:
-#     - macos
-#   needs:
-#     - install
-#   script:
-#     - yarn build
-#     - yarn build:mac
-#   artifacts:
-#     paths:
-#       - release/
-#     expire_in: 1 week
-#   only:
-#     - main
-#     - master
-#     - tags
