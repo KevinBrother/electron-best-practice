@@ -1,0 +1,110 @@
+stages:
+  - install
+  - lint
+  - test
+  - build
+
+variables:
+  ELECTRON_CACHE: .cache/electron
+  ELECTRON_BUILDER_CACHE: .cache/electron-builder
+
+# Cache node_modules and electron caches between jobs
+.node_cache:
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+      - .cache/
+
+# Install dependencies
+install:
+  stage: install
+  extends: .node_cache
+  image: node:18
+  script:
+    - yarn install --frozen-lockfile
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 hour
+
+# Lint code
+lint:
+  stage: lint
+  extends: .node_cache
+  image: node:18
+  needs:
+    - install
+  script:
+    - yarn lint
+  allow_failure: true
+
+# Run tests
+test:
+  stage: test
+  extends: .node_cache
+  image: node:18
+  needs:
+    - install
+  script:
+    - yarn test
+  allow_failure: true
+
+# Build for Linux
+build:linux:
+  stage: build
+  extends: .node_cache
+  image: electronuser/electron-builder:latest
+  needs:
+    - install
+  script:
+    - yarn build
+    - yarn build:linux
+  artifacts:
+    paths:
+      - release/
+    expire_in: 1 week
+  only:
+    - main
+    - master
+    - tags
+
+# Build for Windows (cross-compile on Linux)
+build:win:
+  stage: build
+  extends: .node_cache
+  image: electronuser/electron-builder:latest
+  needs:
+    - install
+  script:
+    - yarn build
+    - yarn build:win
+  artifacts:
+    paths:
+      - release/
+    expire_in: 1 week
+  only:
+    - main
+    - master
+    - tags
+
+# Build for macOS (requires macOS runner)
+# Uncomment if you have a macOS runner
+# build:mac:
+#   stage: build
+#   extends: .node_cache
+#   tags:
+#     - macos
+#   needs:
+#     - install
+#   script:
+#     - yarn build
+#     - yarn build:mac
+#   artifacts:
+#     paths:
+#       - release/
+#     expire_in: 1 week
+#   only:
+#     - main
+#     - master
+#     - tags
