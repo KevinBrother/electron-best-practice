@@ -1,4 +1,4 @@
-FROM dockerhub.datagrand.com/ci_runner/frontend_web:16.14.0
+FROM dockerhub.datagrand.com/ci_runner/frontend_web:18.20.8
 
 WORKDIR /app
 
