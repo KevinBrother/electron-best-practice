@@ -17,14 +17,7 @@ build:linux:
   script:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile.linux .
     - echo '镜像名称:' $IMAGE_NAME:$IMAGE_TAG
-    - docker rm -f temp_container || true
-    - docker create --name temp_container $IMAGE_NAME:$IMAGE_TAG && docker cp temp_container:/app/release release && docker rm temp_container
   allow_failure: false
-  artifacts:
-    name: electron-build-linux
-    paths:
-      - release/
-    expire_in: 1 week
   only:
     - main
     - master
