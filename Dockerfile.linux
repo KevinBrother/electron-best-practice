@@ -9,4 +9,4 @@ RUN yarn config set registry https://registry.npmmirror.com/ \
 
 COPY . /app/
 
-RUN yarn build && yarn build:linux
+RUN yarn build
