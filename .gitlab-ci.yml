@@ -1,0 +1,24 @@
+stages:
+  - build
+
+variables:
+  GIT_STRATEGY: fetch
+  GIT_SSL_NO_VERIFY: "1"
+  IMAGE_NAME: dockerhub.datagrand.com/caojunjie/electron-best-practice/$CI_COMMIT_REF_NAME
+
+before_script:
+  - docker login -u $ci_harbor_pull_u -p $ci_harbor_pull_p http://dockerhub.datagrand.com
+  - echo 'commit id full:' $CI_COMMIT_SHA
+  - export DATE=$(git log -1 --pretty=format:"%ad" --date=format:'%Y%m%d' $CI_COMMIT_SHA)
+  - export IMAGE_TAG="ci"_$DATE"_"${CI_COMMIT_SHA:0:8}
+
+build:linux:
+  stage: build
+  script:
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile.linux .
+    - echo '镜像名称:' $IMAGE_NAME:$IMAGE_TAG
+  allow_failure: false
+  only:
+    - main
+    - master
+    - tags

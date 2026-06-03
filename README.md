@@ -3,6 +3,7 @@
 - [x] 主进程调试
 - [x] 渲染进程调试
 - [x] 自动更新
+- [x] Go 子进程示例（环境变量打印）
 
 ## 问题
 
@@ -35,3 +36,21 @@
     ```
 
     - 测试方法，修改 package.json 的 version，后运行 `yarn build:win`, 打包出不同版本的安装包，再运行 `yarn update-server`, 启动更新服务（构建出包后，dev 环境也可测试更新）
+
+## Go 子进程示例
+
+在主进程启动时，启动 Go 编写的子进程打印所有环境变量，特别关注 `no_new_privs` 安全变量。
+
+### 使用方法
+
+```bash
+# 1. 编译 Go 程序
+cd src/main/workbench/env-printer/go-env-printer
+go build -o env-printer main.go
+
+# 2. 启动 Electron 应用
+cd ../../../../../
+yarn dev
+```
+
+详细说明见 [env-printer README](./src/main/workbench/env-printer/README.md)
